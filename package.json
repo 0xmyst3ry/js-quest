@@ -1,0 +1,15 @@
+{
+  "name": "js-quest",
+  "version": "1.0.0",
+  "description": "A gamified, browser-only platform for learning JavaScript.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "author": "Shubham Shakti",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/",
+    "validate": "node scripts/validate-challenges.mjs"
+  }
+}
