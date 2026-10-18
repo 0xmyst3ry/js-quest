@@ -6,11 +6,18 @@
 
 version: 2
 updates:
- - package-ecosystem: "devcontainers"
-   directory: "/"
-   schedule:
-     interval: weekly
- - package-ecosystem: "github-actions"
-   directory: "/"
-   schedule:
-     interval: weekly
+  # Monthly and grouped so version bumps arrive as at most one PR per ecosystem.
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: monthly
+    groups:
+      devcontainers:
+        patterns: ["*"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns: ["*"]
