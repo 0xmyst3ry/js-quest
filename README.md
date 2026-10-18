@@ -20,7 +20,7 @@ It is a static site — plain HTML, CSS and ES modules, **no backend, no build s
 
 ## Run it locally
 
-You need [Node.js](https://nodejs.org) 20 or newer (only for the tiny dev server and the tests — the site itself needs nothing).
+You need [Node.js](https://nodejs.org) 22 or newer (only for the tiny dev server and the tests — the site itself needs nothing).
 
 ```bash
 git clone https://github.com/0xmyst3ry/js_basics.git
