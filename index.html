@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS Quest — learn JavaScript by charting the stars</title>
+  <meta name="description" content="An interactive, gamified platform for learning JavaScript. 35 short challenges, runs entirely in your browser — no sign-up, no backend.">
+  <meta name="color-scheme" content="dark light">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; worker-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="js/theme-init.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" id="site-header"></header>
+  <div class="notice" id="notice" role="status" hidden></div>
+  <main id="main" tabindex="-1"></main>
+  <footer class="site-footer">
+    <p>JS Quest · MIT licensed · everything runs in your browser, nothing is uploaded.
+      <a href="https://github.com/0xmyst3ry/js_basics">Source on GitHub</a></p>
+  </footer>
+  <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+  <dialog id="dialog" class="dialog" aria-labelledby="dialog-title"></dialog>
+  <noscript><p class="noscript">JS Quest teaches JavaScript, so it needs JavaScript enabled to run.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
