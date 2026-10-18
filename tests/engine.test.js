@@ -144,3 +144,24 @@ test('wrong answers that look plausible still fail', async () => {
   assert.equal(r.status, 'fail');
   assert.deepEqual(r.tests.map((t) => t.pass), [true, false]);
 });
+
+test('timer functions are never invoked with a foreign `this` (browsers throw "Illegal invocation")', async () => {
+  const realSet = globalThis.setTimeout;
+  const realClear = globalThis.clearTimeout;
+  const strict = (fn) =>
+    function (...args) {
+      if (this !== undefined && this !== globalThis) throw new TypeError('Illegal invocation');
+      return fn(...args);
+    };
+  globalThis.setTimeout = strict(realSet);
+  globalThis.clearTimeout = strict(realClear);
+  try {
+    const r = await run('setTimeout(() => console.log("x"), 5); const id = setTimeout(() => {}, 1000); clearTimeout(id);', [
+      { logs: true, wait: 30, expect: ['x'] },
+    ]);
+    assert.equal(r.status, 'pass', JSON.stringify(r.tests));
+  } finally {
+    globalThis.setTimeout = realSet;
+    globalThis.clearTimeout = realClear;
+  }
+});

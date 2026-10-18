@@ -43,23 +43,21 @@ function instantiate(code, challenge) {
     warn: push('warn'),
     error: push('error'),
   };
-  const track = (setter, clearer) => ({
-    set: (fn, ms, ...rest) => {
-      const id = setter(typeof fn === 'function' ? fn : () => {}, ms, ...rest);
-      timers.add({ id, clearer });
-      return id;
-    },
-  });
-  const timeoutApi = track(setTimeout, clearTimeout);
-  const intervalApi = track(setInterval, clearInterval);
+  // Browser timer functions throw "Illegal invocation" if called with a foreign
+  // `this`, so they are always wrapped in arrow functions here.
+  const track = (setter, clearer) => (fn, ms, ...rest) => {
+    const id = setter(typeof fn === 'function' ? fn : () => {}, ms, ...rest);
+    timers.add({ id, clear: () => clearer(id) });
+    return id;
+  };
 
   const document = challenge.dom === undefined ? undefined : createDocument(challenge.dom);
   const scope = {
     console: sandboxConsole,
-    setTimeout: timeoutApi.set,
-    setInterval: intervalApi.set,
-    clearTimeout,
-    clearInterval,
+    setTimeout: track((...a) => setTimeout(...a), (id) => clearTimeout(id)),
+    setInterval: track((...a) => setInterval(...a), (id) => clearInterval(id)),
+    clearTimeout: (id) => clearTimeout(id),
+    clearInterval: (id) => clearInterval(id),
     document,
     Event: MiniEvent,
   };
@@ -67,7 +65,7 @@ function instantiate(code, challenge) {
   const values = [...Object.values(scope), ...BLOCKED.map(() => undefined)];
 
   const dispose = () => {
-    for (const t of timers) t.clearer(t.id);
+    for (const t of timers) t.clear();
     timers.clear();
   };
 
